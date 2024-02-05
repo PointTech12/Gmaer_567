@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [Header("Movement Parameters")]
+    [SerializeField] private float speed;
+    [SerializeField] private float jumpPower;
     [SerializeField] private LayerMask groundLayer;
-    public float speed;
+
     private float horizontalMove;
     private bool moveRight;
     private bool moveLeft;
+    private bool moveUp;
     private Rigidbody2D rb;
     private float horizontalInput;
     private Animator anim;
@@ -20,6 +24,7 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         moveLeft = false;
         moveRight = false;
+        moveUp = false;
     }
 
     // Update is called once per frame
@@ -30,7 +35,9 @@ public class Player : MonoBehaviour
     }
     public void pointerDownLeft()
     { 
-        moveLeft=true; 
+        moveLeft=true;
+        
+        rb.velocity = new Vector2(horizontalInput * speed, rb.velocity.y);
         transform.rotation = Quaternion.Euler(0f, 180f, 0f);
         anim.SetTrigger("run");
     }
@@ -41,12 +48,25 @@ public class Player : MonoBehaviour
     public void pointerDownRight()
     { 
         moveRight=true;
+        
+        rb.velocity = new Vector2(horizontalInput * speed, rb.velocity.y);
         transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         anim.SetBool("run", true);
     }
     public void pointerUpRight() 
     {
         moveRight = false;
+    }
+    public void pointerUpJump()
+    {
+            moveUp =true;
+    }
+    public void pointerDownJump() 
+    {
+        moveUp=true;
+        rb.velocity = new Vector2(rb.velocity.x, jumpPower);
+        moveUp = false;
+
     }
     void Movement()
     {
