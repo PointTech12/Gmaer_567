@@ -38,7 +38,7 @@ public class PrefabWeapon : MonoBehaviour {
         if (animator != null)
         {
             // Trigger the attack animation parameter (assuming you have a trigger parameter named "Attack")
-            animator.SetTrigger("attack");
+            //animator.SetTrigger("attack");
         }
     }
     void Shoot ()
