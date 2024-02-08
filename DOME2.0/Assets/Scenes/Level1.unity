@@ -5035,7 +5035,7 @@ GameObject:
   - component: {fileID: 1435786957}
   m_Layer: 8
   m_Name: Platforms
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -17826,7 +17826,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 934531ddeeb8b854cbf56669d2743f65, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -18009,7 +18009,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firePoint: {fileID: 336813469}
-  bulletPrefab: {fileID: 8762079795335817503, guid: 52286ffc93297a343920a7483e2315b7, type: 3}
 --- !u!114 &1553206807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18022,11 +18021,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0600a46566ff75d47bb16a25eb057c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 45
+  speed: 27
   jumpPower: 35
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
+  firePoint: {fileID: 336813469}
+  bulletPrefab: {fileID: 8762079795335817503, guid: 52286ffc93297a343920a7483e2315b7, type: 3}
 --- !u!1 &1570220735
 GameObject:
   m_ObjectHideFlags: 0
@@ -18329,6 +18330,7 @@ GameObject:
   - component: {fileID: 1649142325}
   - component: {fileID: 1649142324}
   - component: {fileID: 1649142323}
+  - component: {fileID: 1649142326}
   m_Layer: 5
   m_Name: ShootButton
   m_TagString: Untagged
@@ -18437,6 +18439,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1649142321}
   m_CullTransparentMesh: 1
+--- !u!114 &1649142326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1649142321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1553206807}
+          m_TargetAssemblyTypeName: Player, Assembly-CSharp
+          m_MethodName: pointerDownShoot
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1553206807}
+          m_TargetAssemblyTypeName: Player, Assembly-CSharp
+          m_MethodName: pointerUpShoot
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1659028833
 GameObject:
   m_ObjectHideFlags: 0

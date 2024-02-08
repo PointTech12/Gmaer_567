@@ -25,4 +25,8 @@ public class menumain : MonoBehaviour
         SceneManager.LoadSceneAsync(0);
 
     }
+    public void Instr()
+    {
+        SceneManager.LoadSceneAsync(8);
+    }
 }

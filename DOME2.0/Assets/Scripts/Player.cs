@@ -9,22 +9,33 @@ public class Player : MonoBehaviour
     [SerializeField] private float jumpPower;
     [SerializeField] private LayerMask groundLayer;
 
+
+    public Transform firePoint;
+    public GameObject bulletPrefab;
+
     private float horizontalMove;
     private bool moveRight;
     private bool moveLeft;
     private bool moveUp;
+    private bool shoot;
     private Rigidbody2D rb;
     private float horizontalInput;
     private Animator anim;
     private BoxCollider2D boxCollider;
+    private bool grounded;
+
+
 
     // Start is called before the first frame update
     void Start()
     {
+        anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         moveLeft = false;
         moveRight = false;
         moveUp = false;
+        shoot = false;
+        
     }
 
     // Update is called once per frame
@@ -39,7 +50,7 @@ public class Player : MonoBehaviour
         
         rb.velocity = new Vector2(horizontalInput * speed, rb.velocity.y);
         transform.rotation = Quaternion.Euler(0f, 180f, 0f);
-        anim.SetTrigger("run");
+        anim.SetBool("run", horizontalInput != 0);
     }
     public void pointerUpLeft() 
     { 
@@ -51,7 +62,7 @@ public class Player : MonoBehaviour
         
         rb.velocity = new Vector2(horizontalInput * speed, rb.velocity.y);
         transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-        anim.SetBool("run", true);
+        anim.SetBool("run", horizontalInput != 0);
     }
     public void pointerUpRight() 
     {
@@ -59,14 +70,26 @@ public class Player : MonoBehaviour
     }
     public void pointerUpJump()
     {
-            moveUp =true;
+            moveUp =false;
     }
     public void pointerDownJump() 
     {
         moveUp=true;
-        rb.velocity = new Vector2(rb.velocity.x, jumpPower);
-        moveUp = false;
+        if (grounded) 
+        {
+            Jump();
+        }
 
+    }
+    public void pointerUpShoot()
+    {
+        shoot = false;
+    }
+    public void pointerDownShoot()
+    {
+        shoot = true;
+        PlayAttackAnimation();
+        Shoot();
     }
     void Movement()
     {
@@ -91,5 +114,30 @@ public class Player : MonoBehaviour
     {
         RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
         return raycastHit.collider != null;
+    }
+    void PlayAttackAnimation()
+    {
+        // Ensure the animator is not null
+        if (anim != null)
+        {
+            // Trigger the attack animation parameter (assuming you have a trigger parameter named "Attack")
+            anim.SetTrigger("attack");
+        }
+    }
+    void Shoot()
+    {
+        Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+    }
+    private void Jump()
+    {
+        rb.velocity = new Vector2(rb.velocity.x, speed);
+        anim.SetTrigger("jump");
+        grounded = false;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Ground")
+            grounded = true;
     }
 }

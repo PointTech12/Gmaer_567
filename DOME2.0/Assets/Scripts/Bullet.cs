@@ -6,7 +6,7 @@ public class Bullet : MonoBehaviour
 {
 
     public float speed = 20f;
-    public int damage = 40;
+    public int damage = 400;
     public Rigidbody2D rb;
 
     // Use this for initialization
@@ -17,7 +17,8 @@ public class Bullet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D hitInfo)
     {
-        Enemy enemy = hitInfo.GetComponent<Enemy>();
+
+        EnemyHealth enemy = hitInfo.GetComponent<EnemyHealth>();
         if (enemy != null)
         {
             enemy.TakeDamage(damage);
